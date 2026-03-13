@@ -1,0 +1,46 @@
+resources:
+  jobs:
+    deploy_job:
+      name: ${bundle.name} Job - ${bundle.target}
+      description: |
+        Handles catalog and schema creation, data generation, Delta Live Tables pipeline runs, contract testing, lakehouse monitor deployment, and Unity Catalog metadata updates for ${bundle.name} in ${bundle.target}.
+      tags:
+        environment: ${bundle.target}
+        data_product: ${bundle.name}
+      performance_target: PERFORMANCE_OPTIMIZED
+      tasks:
+        - task_key: bronze
+          max_retries: 0
+          notebook_task:
+            notebook_path: ../src/incremental_updates/bronze.py
+        - task_key: silver
+          max_retries: 0
+          depends_on:
+            - task_key: bronze
+          notebook_task:
+            notebook_path: ../src/incremental_updates/silver.py
+        - task_key: gold
+          max_retries: 0
+          depends_on:
+            - task_key: silver
+          notebook_task:
+            notebook_path: ../src/incremental_updates/gold_scd1.py
+        - task_key: gold
+          max_retries: 0
+          depends_on:
+            - task_key: silver
+          notebook_task:
+            notebook_path: ../src/incremental_updates/gold_foreachBatch.py
+      parameters:
+        - name: environment
+          default: ${bundle.target}
+        - name: data_product_name
+          default: ${bundle.name}
+        # - name: catalog_name
+        #   default: "my_project_dev"
+        # - name: bronze_schema_name
+        #   default: ${bundle.name}_bronze
+        # - name: silver_schema_name
+        #   default: ${bundle.name}_silver
+        # - name: gold_schema_name
+        #   default: ${bundle.name}
