@@ -3,6 +3,7 @@ from pyspark import pipelines as dp
 from pyspark.sql import functions as F
 
 # COMMAND ----------
+
 dp.view
 def customer_silver():
     spark.read_Stream.option("readChangeFeed", "true").table("my_projects_dev.cutsomers_silver.cutsomer_history")\
