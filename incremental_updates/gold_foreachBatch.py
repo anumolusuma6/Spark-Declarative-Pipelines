@@ -1,4 +1,8 @@
 # Databricks notebook source
+from pyspark import pipelines as dp
+from pyspark.sql import functions as F
+
+# COMMAND ----------
 silver = spark.read_Stream.table("my_projects_dev.cutsomers_silver.cutsomer_history")\
     .filter("__END_AT IS NULL")\
     .select(F.col("id"), F.col("name"), F.col("city"))
