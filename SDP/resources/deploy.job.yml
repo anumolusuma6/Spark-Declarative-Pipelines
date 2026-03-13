@@ -9,8 +9,14 @@ resources:
         data_product: ${bundle.name}
       performance_target: PERFORMANCE_OPTIMIZED
       tasks:
+        - task_key: infra
+          max_retries: 0
+          notebook_task:
+            notebook_path: ../src/infra.py
         - task_key: bronze
           max_retries: 0
+          depends_on:
+            - task_key: infra
           notebook_task:
             notebook_path: ../src/incremental_updates/bronze.py
         - task_key: silver
