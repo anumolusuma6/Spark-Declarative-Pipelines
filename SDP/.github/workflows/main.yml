@@ -8,6 +8,7 @@ concurrency:
   cancel-in-progress: false
 permissions:
 
+
   contents: read   # Allow the job to read repository contents
 jobs:
   generate-and-deploy:
