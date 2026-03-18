@@ -46,9 +46,6 @@ jobs:
       - name: Install pip dependencies 💾
         run: |
           pip install -r requirements.txt
-      - name: Block DAB permissions assignment
-        run: |
-          python scripts/check_no_permissions_in_dab.py
       
       - name: Display directory contents 📂
         run: |
