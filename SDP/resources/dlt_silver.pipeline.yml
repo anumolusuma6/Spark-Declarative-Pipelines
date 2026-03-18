@@ -1,0 +1,21 @@
+resources:
+ pipelines:
+   dlt_silver:
+     name: ${bundle.name}_pipeline_silver_${bundle.target}
+     catalog: "my_projects_dev"
+     serverless: true
+     schema: "customers_silver"
+     libraries:
+       - notebook:
+           path: ../src/incremental_updates/silver.py
+
+     configuration:
+       # Required base configurations
+       bundle.sourcePath: ${workspace.file_path}/src
+       dltparam.environment: ${bundle.target}
+       dltparam.catalog_name: "my_projects_dev"
+       dltparam.data_product_name: ${bundle.name}
+       dltparam.bronze_schema_name: "customers_bronze"
+       dltparam.silver_schema_name: "customers_silver"
+       dltparam.gold_schema_name: "customers_gold"
+       dltparam.layer: silver

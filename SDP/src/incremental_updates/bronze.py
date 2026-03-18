@@ -10,7 +10,7 @@ df = spark.createDataFrame([
         {"id": 3, "name": "Charlie", "city": "NYC", "timestamp": "2022-01-01"}
     ], schema="id INT, name STRING, city STRING, timestamp STRING")
 
-df.write.mode("append").saveAsTable("my_projects_dev.customers_bronze.cutsomers")
+df.write.mode("overwrite").saveAsTable("my_projects_dev.customers_bronze.cutsomers")
 
 # COMMAND ----------
 

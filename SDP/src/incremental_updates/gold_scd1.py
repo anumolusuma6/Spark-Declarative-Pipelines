@@ -1,19 +1,20 @@
 # Databricks notebook source
-from pyspark import pipelines as dp
+import dlt
 from pyspark.sql import functions as F
 
 # COMMAND ----------
-dp.view
+
+@dlt.view
 def customer_silver():
-    spark.read_Stream.option("readChangeFeed", "true").table("my_projects_dev.cutsomers_silver.cutsomer_history")\
+    return spark.readStream.option("readChangeFeed", "true").table("my_projects_dev.customers_silver.customer_history")\
         .filter("__END_AT IS NULL")
 
-dp.create_streaming_table
-dp.create_auto_cdc_flow(
-    target= "my_projects_dev.cutsomers_gold.cutsomer_gold",
+dlt.create_streaming_table ("customer_gold")
+dlt.create_auto_cdc_flow(
+    target= "customer_gold",
     source= "customer_silver",
-    key= ["id"],
-    sequence_by= ["timestamp"],
+    keys= ["id"],
+    sequence_by= F.col("timestamp"),
     except_column_list= ["__START_AT", "__END_AT"],
     stored_as_scd_type=1
 )
