@@ -19,6 +19,8 @@ The pattern depends on whether Gold needs **incremental updates** or can simply 
   spark.readStream.option("readChangeFeed", "true")
   ```
 - Write pattern: `writeStream` or `write` → `foreachBatch` → `merge`
+- Mat view is more efficient if it can also be batch processing, and the table isnt large
+- Mat view with liquid clustering to avoid mall table issue
 
 #### Gold can be append-only
 - Use a **DLT Streaming Table** (`dlt.read_stream` + `dlt.table`) if it is in same pipeline
