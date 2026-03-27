@@ -21,7 +21,6 @@ The pattern depends on whether Gold needs **incremental updates** or can simply 
 - Write pattern: `writeStream` or `write` → `foreachBatch` → `merge`
 
 #### Gold can be append-only
-- Use a **DLT Streaming Table** (`dlt.read_stream` + `dlt.table`)
-    - dlt.view of silver using dlt.read_stream and create streaming table with SCD1
+- Use a **DLT Streaming Table** (`dlt.read_stream` + `dlt.table`) if it is in same pipeline
 - Or a standard `dlt.table` with append semantics
 
